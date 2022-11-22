@@ -18,7 +18,7 @@ dependencies:
 
 ## Usage
 
-<img src="https://github.com/rkeeper/multiple_bottom_sheets/blob/main/bottom_sheets.gif" width=33% height=33%>
+![](https://github.com/rkeeper/multiple_bottom_sheets/blob/main/bottom_sheets_small.gif)
 
 ```dart
 void main() {
