@@ -18,7 +18,7 @@ dependencies:
 
 ## Usage
 
-<img src="https://github.com/AlexeyErofeev/multiple_bottom_sheet/blob/appbar_parametrization/raw/bottom_sheets.gif" width=33% height=33%>
+<img src="https://github.com/rkeeper/multiple_bottom_sheets/blob/main/bottom_sheets.gif" width=33% height=33%>
 
 ```dart
 void main() {
