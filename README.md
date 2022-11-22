@@ -1,39 +1,165 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
-
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages).
-
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages).
--->
-
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+A small library that allows to create multitab pages with bottom sheets
 
 ## Features
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+- Custom collapsed & expanded appbars
+- Customizable number of bottom sheets
 
 ## Getting started
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+### 🔩 Installation
+
+Add to your `pubspec.yaml`:
+
+```yaml
+dependencies:
+  multiple_bottom_sheets: <last_version>
+```
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
+<img src="https://github.com/AlexeyErofeev/multiple_bottom_sheet/blob/appbar_parametrization/raw/bottom_sheets.gif" width=33% height=33%>
 
 ```dart
-const like = 'sample';
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.grey),
+      ),
+      debugShowCheckedModeBanner: false,
+      home: const Home(),
+    );
+  }
+}
+
+class Home extends StatelessWidget {
+  const Home({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: CardsHost(
+        appBar: CollapsableAppBar(
+          expanded: Image(
+              image: const AssetImage('assets/pic.jpg'),
+              fit: BoxFit.fitWidth,
+              width: double.infinity,
+              alignment: Alignment.center,
+            ),
+          collapsed: Center(child: Text('collapsed', style: TextStyle(color: Colors.white, fontSize: 16),)),
+          ),
+        children: [
+          HostedCardChild(
+            decoration: cardDecor,
+            child: Column(
+              children: const [
+                CardHeader("one", color: Colors.red),
+                CardBody(),
+              ],
+            ),
+          ),
+          HostedCardChild(
+            decoration: cardDecor,
+            child: Column(
+              children: const [
+                CardHeader("two", color: Colors.green),
+                CardBody(),
+              ],
+            ),
+          ),
+          HostedCardChild(
+            decoration: cardDecor,
+            child: Column(
+              children: const [
+                CardHeader("three", color: Colors.blue),
+                CardBody(),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+Decoration cardDecor = BoxDecoration(
+  color: Colors.white,
+  borderRadius: const BorderRadius.only(
+    topLeft: Radius.circular(16),
+    topRight: Radius.circular(16),
+  ),
+  boxShadow: [
+    BoxShadow(
+      color: Colors.grey.withOpacity(0.5),
+      spreadRadius: 5,
+      blurRadius: 7,
+      offset: const Offset(0, 3), // changes position of shadow
+    ),
+  ],
+);
+
+class CardHeader extends StatelessWidget {
+  final String text;
+  final Color color;
+
+  const CardHeader(this.text, {Key? key, required this.color}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    const ts = TextStyle(
+      fontSize: 11,
+      fontWeight: FontWeight.w600,
+    );
+
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 18),
+      child: Text(
+        text,
+        style: ts.copyWith(color: color),
+      ),
+    );
+  }
+}
+
+class CardBody extends StatelessWidget {
+  const CardBody({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        for (int i = 0; i < 20; i++) const ScrollChild(),
+      ],
+    );
+  }
+}
+
+class ScrollChild extends StatelessWidget {
+  const ScrollChild({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(top: 8, bottom: 8, left: 8, right: 8),
+      decoration: const ShapeDecoration(
+        color: Colors.black12,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(8)),
+        ),
+      ),
+      child: const SizedBox(height: 40, width: double.infinity),
+    );
+  }
+}
 ```
 
-## Additional information
-
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
